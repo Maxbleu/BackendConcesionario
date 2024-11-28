@@ -1,0 +1,6 @@
+@Backend_Concesionario_HostAddress = http://localhost:5136
+
+GET {{Backend_Concesionario_HostAddress}}/VehiculosController/
+Accept: application/json
+
+###
