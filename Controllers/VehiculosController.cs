@@ -1,4 +1,5 @@
 ﻿using Backend_Concesionario.Models;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
@@ -9,6 +10,7 @@ namespace Backend_Concesionario.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
+    [Authorize]
     public class VehiculosController : ControllerBase
     {
         private readonly AplicationDBContext _dBContext;
@@ -19,23 +21,24 @@ namespace Backend_Concesionario.Controllers
         }
 
         [HttpGet]
-        public IEnumerable<Vehiculo> Get()
+        public IActionResult Get()
         {
-            return this._dBContext.Vehiculos;
+            List<Vehiculo> vehiculos = this._dBContext.Vehiculos.ToList<Vehiculo>();
+            return Ok(vehiculos);
         }
 
         [HttpGet("{id}")]
-        public async Task<ActionResult<Vehiculo>> GetAsync(int id)
+        public async Task<IActionResult> GetAsync(int id)
         {
             Vehiculo? vehiculo = await this._dBContext.Vehiculos.FirstOrDefaultAsync(vehiculo => vehiculo.Id == id);
             if (vehiculo == null)
                 return NotFound();
 
-            return vehiculo;
+            return Ok(vehiculo);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Vehiculo>> PostAsync([FromBody] Vehiculo vehiculo)
+        public async Task<IActionResult> PostAsync([FromBody] Vehiculo vehiculo)
         {
             vehiculo.Id = this._dBContext.Vehiculos.Count() + 1;
             await this._dBContext.Vehiculos.AddAsync(vehiculo);
