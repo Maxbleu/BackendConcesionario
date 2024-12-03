@@ -17,7 +17,7 @@ namespace Backend_Concesionario.Controllers
             _configuration = configuration;
         }
 
-        [HttpPost("authenticate")]
+        [HttpPost("login")]
         public IActionResult Authenticate([FromBody] User credentials)
         {
 

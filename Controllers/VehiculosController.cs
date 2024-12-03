@@ -10,7 +10,6 @@ namespace Backend_Concesionario.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    [Authorize]
     public class VehiculosController : ControllerBase
     {
         private readonly AplicationDBContext _dBContext;
@@ -23,8 +22,7 @@ namespace Backend_Concesionario.Controllers
         [HttpGet]
         public IActionResult Get()
         {
-            List<Vehiculo> vehiculos = this._dBContext.Vehiculos.ToList<Vehiculo>();
-            return Ok(vehiculos);
+            return Ok(this._dBContext.Vehiculos);
         }
 
         [HttpGet("{id}")]
@@ -38,16 +36,18 @@ namespace Backend_Concesionario.Controllers
         }
 
         [HttpPost]
+        [Authorize]
         public async Task<IActionResult> PostAsync([FromBody] Vehiculo vehiculo)
         {
             vehiculo.Id = this._dBContext.Vehiculos.Count() + 1;
             await this._dBContext.Vehiculos.AddAsync(vehiculo);
             
             await this._dBContext.SaveChangesAsync();
-            return CreatedAtAction(nameof(Get), vehiculo.Id);
+            return CreatedAtAction(nameof(Get), vehiculo);
         }
 
         [HttpPut("{id}")]
+        [Authorize]
         public async Task<IActionResult> PutAsync(int id, [FromBody] Dictionary<string, JsonElement> datosVehiculoActualizado)
         {
             Vehiculo? vehiculo = await this._dBContext.Vehiculos.FirstOrDefaultAsync(vehiculo => vehiculo.Id == id);
@@ -67,10 +67,11 @@ namespace Backend_Concesionario.Controllers
 
             await this._dBContext.SaveChangesAsync();
 
-            return NoContent();
+            return CreatedAtAction(nameof(Get), vehiculo);
         }
 
         [HttpDelete("{id}")]
+        [Authorize]
         public async Task<IActionResult> DeleteAsync(int id)
         {
             Vehiculo? vehiculo = await this._dBContext.Vehiculos.FirstOrDefaultAsync(vehiculo => vehiculo.Id == id);
