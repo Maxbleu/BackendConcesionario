@@ -24,7 +24,7 @@ namespace Backend_Concesionario.Controllers
             if (credentials.UserName == _configuration["UserAdmin:Name"] && credentials.Password == _configuration["UserAdmin:Password"])
             {
                 var token = _tokenService.GenerateJwtToken();
-                return Ok(new { token });
+                return Ok(token);
             }
             else
             {

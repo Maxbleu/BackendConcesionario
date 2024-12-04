@@ -6,23 +6,28 @@ namespace Backend_Concesionario.Services
 {
     public class TokenService
     {
-        private readonly IConfiguration _configuration;
+        private readonly string _secret;
+        private readonly string _issuer;
+        private readonly string _audience;
 
         public TokenService(IConfiguration configuration)
         {
-            _configuration = configuration;
+            _secret = configuration["Jwt:Key"];
+            _issuer = configuration["Jwt:Issuer"];
+            _audience = configuration["Jwt:Audience"];
         }
 
         public string GenerateJwtToken()
         {
-            var securityKey = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_configuration["Jwt:Key"]));
-            var credentials = new SigningCredentials(securityKey, SecurityAlgorithms.HmacSha256);
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_secret));
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
             var token = new JwtSecurityToken(
-                issuer: _configuration["Jwt:Issuer"],
-                audience: _configuration["Jwt:Audience"],
-                expires: DateTime.Now.AddHours(1),
-                signingCredentials: credentials);
+                issuer: _issuer,
+                audience: _audience,
+                expires: DateTime.Now.AddMinutes(30),
+                signingCredentials: creds);
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
