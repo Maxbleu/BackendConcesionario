@@ -7,7 +7,6 @@ namespace Backend_Concesionario.Models
     public class Vehiculo
     {
         [Ignore]
-        [JsonIgnore]
         public int Id { get; set; }
 
         [Name("First Name")]

@@ -7,7 +7,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Backend Concesionario", "Ba
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ConsoleApp_Concesionario", "..\ConsoleApp_Concesionario\ConsoleApp_Concesionario.csproj", "{312DD937-E6EA-4337-B40A-11307868A848}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Identicable Nuget", "..\Identicable Nuget\Identicable Nuget.csproj", "{FC73F80F-21DE-4A74-92F5-06FD33649EA3}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "WpfApp_Concesionario", "..\WpfApp_Concesionario\WpfApp_Concesionario.csproj", "{9B5E4265-73CC-41A5-8BF1-EBAD7FC4159C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,10 +23,10 @@ Global
 		{312DD937-E6EA-4337-B40A-11307868A848}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{312DD937-E6EA-4337-B40A-11307868A848}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{312DD937-E6EA-4337-B40A-11307868A848}.Release|Any CPU.Build.0 = Release|Any CPU
-		{FC73F80F-21DE-4A74-92F5-06FD33649EA3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{FC73F80F-21DE-4A74-92F5-06FD33649EA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{FC73F80F-21DE-4A74-92F5-06FD33649EA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{FC73F80F-21DE-4A74-92F5-06FD33649EA3}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9B5E4265-73CC-41A5-8BF1-EBAD7FC4159C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9B5E4265-73CC-41A5-8BF1-EBAD7FC4159C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9B5E4265-73CC-41A5-8BF1-EBAD7FC4159C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9B5E4265-73CC-41A5-8BF1-EBAD7FC4159C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
