@@ -17,6 +17,11 @@ namespace Backend_Concesionario.Services
             _audience = configuration["Jwt:Audience"];
         }
 
+        /// <summary>
+        /// Este método se encarga de generar un token
+        /// JWT para el usuario que sea logueado
+        /// </summary>
+        /// <returns></returns>
         public string GenerateJwtToken()
         {
 

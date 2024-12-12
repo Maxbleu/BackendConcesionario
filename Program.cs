@@ -7,16 +7,40 @@ using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
 
+// ***********************************************
+// Configuración del proyecto
+// ***********************************************
+
+// 1. Cargar las clases necesarias para inyección de dependencias
+// --------------------------------------------------------------
+// `AplicationDBContext` es nuestro contexto de base de datos, el
+//  cual registro como Singleton para que sea compartido por toda la aplicación
 builder.Services.AddSingleton<AplicationDBContext>();
+
+// `VehiculoService` aprovechando la interfaz que implementa
+// podremos obtener los vehículos e insertarlos en la base de datos
 builder.Services.AddSingleton<IHostedService, VehiculoService>();
 
+
+// 2. Configurar controladores y endpoints
+// ----------------------------------------
+// Se habilitan los controladores para procesar solicitudes HTTP
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
+// Cargar la API para exploración y pruebas (Swagger u otros métodos)
 builder.Services.AddEndpointsApiExplorer();
+
+
+// 3. Configurar la documentación de Swagger
+// ------------------------------------------
+// Swagger permite generar y visualizar documentación interactiva de la API.
 builder.Services.AddSwaggerGen();
 
+
+// 4. Configurar autenticación JWT
+// --------------------------------
+// Obtenemos la clave secreta desde la configuración para firmar los tokens JWT
 var key = Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]);
 builder.Services.AddAuthentication(options =>
 {
@@ -27,28 +51,34 @@ builder.Services.AddAuthentication(options =>
 {
     options.TokenValidationParameters = new TokenValidationParameters
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
+        ValidateIssuer = true,                              // Verificar el emisor
+        ValidateAudience = true,                            // Verificar el destinatario
+        ValidateLifetime = true,                            // Verificar la vigencia del token
+        ValidateIssuerSigningKey = true,                    // Validar la clave de firma
         ValidIssuer = builder.Configuration["Jwt:Issuer"],
         ValidAudience = builder.Configuration["Jwt:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(key)
+        IssuerSigningKey = new SymmetricSecurityKey(key)    // Clave de firma
     };
 });
 
+// Registrar el servicio de tokens, que se encargará de crear y validar JWT
 builder.Services.AddScoped<TokenService>();
 
-WebApplication app = builder.Build();
 
+// 5. Construcción de la aplicación
+// ----------------------------------
+var app = builder.Build();
+
+// Configuración para el entorno de desarrollo
 if (app.Environment.IsDevelopment())
 {
-    app.UseDeveloperExceptionPage();
-    app.UseSwagger(); 
-    app.UseSwaggerUI(); 
+    app.UseDeveloperExceptionPage();                        // Página de errores amigable para desarrollo
+    app.UseSwagger();                                       // Habilitar Swagger para pruebas
+    app.UseSwaggerUI();                                     // Interfaz de usuario para Swagger
 }
 else
 {
+    // Manejo de errores en producción
     app.UseExceptionHandler(errorApp =>
     {
         errorApp.Run(async context =>
@@ -67,15 +97,17 @@ else
     });
 }
 
+
+// 5.1 Habilitar el enrutado
 app.UseRouting();
+
+// 5.2 Habilitar autenticación y autorización
 app.UseAuthentication();
 app.UseAuthorization();
 
-app.UseEndpoints(endpoints =>
-{
-    endpoints.MapControllers();
-});
-//app.UseHttpsRedirection();
-
+// 5.3 Configuración de endpoints
+// Aquí se procesan las rutas asociadas a los controladores
 app.MapControllers();
+
+// 5.4 Ejecutar la aplicación
 app.Run();

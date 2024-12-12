@@ -10,6 +10,11 @@ namespace Backend_Concesionario.Data
 
         private static string csvFilePath = Path.Combine(Environment.CurrentDirectory, "Data", "cars.csv");
 
+        /// <summary>
+        /// Lee los datos de los vehículos desde un archivo CSV
+        /// y los devuelve
+        /// </summary>
+        /// <returns></returns>
         public static List<Vehiculo> LeerCSVVehiculos()
         {
             List<Vehiculo> vehiculos = null;
